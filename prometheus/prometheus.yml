@@ -1,0 +1,48 @@
+#Global config
+global: 
+  scrape_interval: 15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.  
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.  
+  scrape_timeout: 15s # scrape_timeout is set to the global default (10s).
+  # AlertManager
+alerting:
+  alertmanagers:
+    - static_configs:
+      - targets:
+        # Alertmanager's default port is 9093
+        - 10.23.53.23:9093
+# Rules and alerts are read from the specified file(s)
+rule_files:
+  - /etc/prometheus/rules/rules.yml
+# A scrape configuration containing exactly one endpoint to scrape:# Here it's Prometheus itself.
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: 'prometheus_master'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['10.23.53.23:9091']
+  - job_name: 'Servers'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['10.23.52.36:9100']
+      - targets: ['10.23.1.1:9100']
+      - targets: ['10.23.1.2:9100']
+      - targets: ['10.23.53.22:9100']
+      - targets: ['10.23.5.65:9100']
+      - targets: ['10.23.52.191:9100']
+
+  - job_name: 'WorkStation'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['10.23.0.36:9100']
+      - targets: ['10.23.0.37:9100']
+      - targets: ['10.23.0.155:9100']
+      - targets: ['10.23.0.156:9100']
+      - targets: ['10.23.0.165:9100']
+      - targets: ['10.23.0.41:9100']
+  - job_name: 'Windows'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['10.23.53.1:9182']
+      - targets: ['10.23.52.13:9182']
+      - targets: ['10.23.3.195:9182']
+      - targets: ['10.23.3.193:9182']
